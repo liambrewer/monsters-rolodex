@@ -8,29 +8,32 @@ class App extends Component {
     super();
 
     this.state = {
-      monsters: [
-        {
-          name: 'Linda'
-        },
-        {
-          name: 'Frank'
-        },
-        {
-          name: 'Jacky'
-        },
-        {
-          name: 'Joe'
-        }
-      ]
+      monsters: [],
     }
+    console.log('1 Constucted');
+  }
+
+  componentDidMount() {
+    console.log('3 Mounted');
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .then(response => response.json())
+      .then(users => this.setState(() => {
+          return {monsters: users};
+        },
+        () => {
+          console.log(this.state);
+        }
+        )
+      );
   }
 
   render() {
+    console.log('2 Rendered');
     return (
       <div className="App">
         {
           this.state.monsters.map((monster) => {
-            return <h1>{monster.name}</h1>
+            return <div key={monster.id}><h1>{monster.name}</h1></div>
           })
         }
       </div>
